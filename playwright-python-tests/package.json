@@ -1,0 +1,17 @@
+{
+  "name": "playwright-e2e-regression-suite",
+  "version": "1.0.0",
+  "description": "Full enterprise deployment deployment for Playwright E2E and API testing",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test",
+    "test:headed": "npx playwright test --headed",
+    "test:debug": "npx playwright test --debug",
+    "codegen": "npx playwright codegen"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "typescript": "^5.0.0"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "test_user": {
+    "username": "qa-test-user",
+    "password": "SuperSecretPW123!"
+  },
+  "invalid_user": {
+    "username": "wrong-user",
+    "password": "BadPassword999!"
+  }
+}
