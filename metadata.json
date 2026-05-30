@@ -1,0 +1,6 @@
+{
+  "name": "Google-Python-IT-Automation",
+  "description": "An interactive full-stack learning platform mimicking the final capstones of Google's IT Automation with Python Professional Certificate. Students can write, run, and debug scripts with real-time Django server visualizers, a mock Roundcube email client, file explorers, and a live terminal sandbox.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

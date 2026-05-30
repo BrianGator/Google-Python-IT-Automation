@@ -1,0 +1,44 @@
+name: GitHub Playwright CI / CD E2E Pipeline
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python Runtime Environment
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Cache Pip Dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install PyTest and Playwright Packages
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Provision Playwright Headless WebKit Browsers
+        run: |
+          playwright install --with-deps chromium
+
+      - name: Run Playwright RegressionSuite via Pytest
+        run: |
+          pytest --html=report.html --self-contained-html
+        
+      - name: Archive Playwright HTML and JSON Test Reports
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: playwright-execution-report
+          path: |
+            report.html
+            test-results/
