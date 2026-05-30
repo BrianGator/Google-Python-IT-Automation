@@ -1,0 +1,198 @@
+{
+  "stats": {
+    "startTime": "2026-05-30T18:30:00.000Z",
+    "duration": 18245,
+    "expected": 18,
+    "unexpected": 2,
+    "flaky": 0,
+    "skipped": 0
+  },
+  "tests": [
+    {
+      "id": "test_01",
+      "name": "Test 01 - Successful Login",
+      "suite": "tests/github.spec.ts",
+      "status": "expected",
+      "outcome": "passed",
+      "duration": 580,
+      "error": null
+    },
+    {
+      "id": "test_02",
+      "name": "Test 02 - Failed Login",
+      "suite": "tests/github.spec.ts",
+      "status": "unexpected",
+      "outcome": "failed",
+      "duration": 5000,
+      "error": {
+        "message": "expect(locator).toBeVisible()\n\nCall log:\n  - waiting for locator('.non-existent-error-banner')\n  - locator resolved to hidden",
+        "stack": "Error: expect(locator).toBeVisible() with timeout 4000ms exceeded.\n    at tests/github.spec.ts:18:61"
+      }
+    },
+    {
+      "id": "test_03",
+      "name": "Test 03 - Password Reset Request Flow",
+      "suite": "tests/github.spec.ts",
+      "status": "expected",
+      "outcome": "passed",
+      "duration": 340,
+      "error": null
+    },
+    {
+      "id": "test_04",
+      "name": "Test 04 - Profile Bio Update Workflow",
+      "suite": "tests/github.spec.ts",
+      "status": "expected",
+      "outcome": "passed",
+      "duration": 480,
+      "error": null
+    },
+    {
+      "id": "test_05",
+      "name": "Test 05 - Repository Search Functionality",
+      "suite": "tests/github.spec.ts",
+      "status": "expected",
+      "outcome": "passed",
+      "duration": 650,
+      "error": null
+    },
+    {
+      "id": "test_06",
+      "name": "Test 06 - Adding a Repository to a Stars List",
+      "suite": "tests/github.spec.ts",
+      "status": "expected",
+      "outcome": "passed",
+      "duration": 420,
+      "error": null
+    },
+    {
+      "id": "test_07",
+      "name": "Test 07 - Removing a Repository from a Stars List",
+      "suite": "tests/github.spec.ts",
+      "status": "expected",
+      "outcome": "passed",
+      "duration": 410,
+      "error": null
+    },
+    {
+      "id": "test_08",
+      "name": "Test 08 - Repository Creation Flow simulation",
+      "suite": "tests/github.spec.ts",
+      "status": "expected",
+      "outcome": "passed",
+      "duration": 720,
+      "error": null
+    },
+    {
+      "id": "test_09",
+      "name": "Test 09 - Infinite Scroll on GitHub Explore page",
+      "suite": "tests/github.spec.ts",
+      "status": "expected",
+      "outcome": "passed",
+      "duration": 2200,
+      "error": null
+    },
+    {
+      "id": "test_10",
+      "name": "Test 10 - Repository Issues Form Validation",
+      "suite": "tests/github.spec.ts",
+      "status": "unexpected",
+      "outcome": "failed",
+      "duration": 520,
+      "error": {
+        "message": "Error: expect(received).toHaveText(expected)\n\nExpected: \"Title cannot be blank\"\nReceived: \"Field is required\"",
+        "stack": "Error: expect(received).toHaveText(expected)\n    at tests/github.spec.ts:74:31"
+      }
+    },
+    {
+      "id": "test_11",
+      "name": "Test 11 - Profile Avatar File Upload Interaction",
+      "suite": "tests/github.spec.ts",
+      "status": "expected",
+      "outcome": "passed",
+      "duration": 950,
+      "error": null
+    },
+    {
+      "id": "test_12",
+      "name": "Test 12 - Delete Repository Confirmation Modal Handling",
+      "suite": "tests/github.spec.ts",
+      "status": "expected",
+      "outcome": "passed",
+      "duration": 490,
+      "error": null
+    },
+    {
+      "id": "test_13",
+      "name": "Test 13 - Multi-tab Navigation",
+      "suite": "tests/github.spec.ts",
+      "status": "expected",
+      "outcome": "passed",
+      "duration": 810,
+      "error": null
+    },
+    {
+      "id": "test_14",
+      "name": "Test 14 - API Network Mocking/Interception",
+      "suite": "tests/github.spec.ts",
+      "status": "expected",
+      "outcome": "passed",
+      "duration": 510,
+      "error": null
+    },
+    {
+      "id": "test_15",
+      "name": "Test 15 - Release Asset File Download Verification",
+      "suite": "tests/github.spec.ts",
+      "status": "expected",
+      "outcome": "passed",
+      "duration": 1100,
+      "error": null
+    },
+    {
+      "id": "test_16",
+      "name": "Test 16 - Appearance Settings UI Toggle",
+      "suite": "tests/github.spec.ts",
+      "status": "expected",
+      "outcome": "passed",
+      "duration": 430,
+      "error": null
+    },
+    {
+      "id": "test_17",
+      "name": "Test 17 - Repository Commit History Pagination Navigation",
+      "suite": "tests/github.spec.ts",
+      "status": "expected",
+      "outcome": "passed",
+      "duration": 680,
+      "error": null
+    },
+    {
+      "id": "test_18",
+      "name": "Test 18 - Pull Request Table Column Sorting",
+      "suite": "tests/github.spec.ts",
+      "status": "expected",
+      "outcome": "passed",
+      "duration": 550,
+      "error": null
+    },
+    {
+      "id": "test_19",
+      "name": "Test 19 - Real-time Repository File Tree Filtering",
+      "suite": "tests/github.spec.ts",
+      "status": "expected",
+      "outcome": "passed",
+      "duration": 610,
+      "error": null
+    },
+    {
+      "id": "test_20",
+      "name": "Test 20 - Session State Persistence",
+      "suite": "tests/github.spec.ts",
+      "status": "expected",
+      "outcome": "passed",
+      "duration": 480,
+      "error": null
+    }
+  ]
+}

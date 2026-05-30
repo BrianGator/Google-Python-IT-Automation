@@ -1,1 +1,0 @@
-# This directory stores the screenshots, videos and traces from failed tests.

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playwright Test Report</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+  <div class="max-w-6xl mx-auto p-6 md:py-10 space-y-8">
+    
+    <!-- Header banner -->
+    <header class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-6">
+      <div class="space-y-1">
+        <div class="flex items-center gap-2.5">
+          <span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse"></span>
+          <h1 class="text-2xl font-black tracking-tight text-slate-900 font-sans">
+            Playwright Regression E2E Report
+          </h1>
+        </div>
+        <p class="text-xs text-slate-500 font-mono">
+          SUITE PATH: /playwright-python-tests/tests/github.spec.ts &bull; ENV: Sandbox Production
+        </p>
+      </div>
+      <div class="flex items-center gap-2 shrink-0">
+        <span class="text-xs text-slate-500 font-mono">Executed: 2026-05-30 18:30 UTC</span>
+      </div>
+    </header>
+
+    <!-- Stat Dashboard Cards -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="bg-white border border-slate-200 p-5 rounded-xl shadow-sm text-center">
+        <div class="text-xs font-bold font-mono tracking-wider text-slate-400 uppercase">Total Tests Run</div>
+        <div id="stat-total" class="text-3xl font-black text-slate-900 mt-2">20</div>
+      </div>
+      <div class="bg-white border border-emerald-100 p-5 rounded-xl shadow-sm text-center">
+        <div class="text-xs font-bold font-mono tracking-wider text-emerald-500 uppercase">Passed (Expected)</div>
+        <div id="stat-passed" class="text-3xl font-black text-emerald-600 mt-2">18</div>
+      </div>
+      <div class="bg-white border border-rose-100 p-5 rounded-xl shadow-sm text-center">
+        <div class="text-xs font-bold font-mono tracking-wider text-rose-500 uppercase">Failed (Unexpected)</div>
+        <div id="stat-failed" class="text-3xl font-black text-rose-600 mt-2">2</div>
+      </div>
+      <div class="bg-white border border-slate-200 p-5 rounded-xl shadow-sm text-center">
+        <div class="text-xs font-bold font-mono tracking-wider text-slate-400 uppercase">Total Duration</div>
+        <div class="text-3xl font-black text-sky-600 mt-2">18.25s</div>
+      </div>
+    </div>
+
+    <!-- Interactive Filters and Test Rows -->
+    <div class="space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+        <div class="flex items-center gap-1">
+          <button id="btn-filter-all" onclick="filterTests('all')" class="px-3.5 py-1.5 text-xs font-bold rounded-lg border bg-slate-900 border-slate-900 text-white transition-all">
+            All (20)
+          </button>
+          <button id="btn-filter-passed" onclick="filterTests('passed')" class="px-3.5 py-1.5 text-xs font-bold rounded-lg border border-slate-200 bg-white text-slate-600 hover:text-slate-900 transition-all">
+            Passed (18)
+          </button>
+          <button id="btn-filter-failed" onclick="filterTests('failed')" class="px-3.5 py-1.5 text-xs font-bold rounded-lg border border-slate-200 bg-white text-slate-600 hover:text-slate-900 transition-all font-semibold">
+            Failed (2)
+          </button>
+        </div>
+        <span class="text-xs text-slate-500 font-mono">Click rows to toggle trace logs</span>
+      </div>
+
+      <!-- Test list container -->
+      <div class="divide-y divide-slate-100 bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+        
+        <!-- TR 1 -->
+        <div class="test-row pass p-4 hover:bg-slate-50 cursor-pointer select-none flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold font-mono text-slate-400">#01 [passed]</span>
+            <span class="px-2 py-0.5 text-[10px] font-mono rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100 font-extrabold uppercase">PASSED</span>
+          </div>
+          <div class="flex items-start justify-between">
+            <h3 class="font-extrabold text-sm text-slate-900">Test 01 - Successful Login</h3>
+            <span class="text-xs font-mono text-slate-500">580ms</span>
+          </div>
+        </div>
+
+        <!-- TR 2 (FAILED) -->
+        <div onclick="toggleError('err-block-2')" class="test-row fail p-4 bg-rose-50/20 hover:bg-rose-50/45 cursor-pointer flex flex-col gap-3 border-l-4 border-rose-500">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold font-mono text-rose-500">#02 [failed]</span>
+            <span class="px-2 py-0.5 text-[10px] font-mono rounded-full bg-rose-50 text-rose-700 border border-rose-100 font-extrabold uppercase animate-pulse">FAILED</span>
+          </div>
+          <div class="flex items-start justify-between">
+            <div>
+              <h3 class="font-extrabold text-sm text-slate-900">Test 02 - Failed Login (Intentional Failure)</h3>
+              <p class="text-xs text-rose-600 font-mono mt-1">expect(locator).toBeVisible(): timeout 4000ms exceeded.</p>
+            </div>
+            <span class="text-xs font-mono text-rose-600 font-bold">5000ms</span>
+          </div>
+          <div id="err-block-2" class="hidden mt-3 bg-slate-900 text-rose-400 p-4 rounded-lg font-mono text-xs overflow-x-auto whitespace-pre leading-relaxed shadow-inner">
+Error: expect(locator).toBeVisible() with timeout 4000ms exceeded.
+   at tests/github.spec.ts:18:61
+
+=== Playwright Call Log ===
+- waiting for locator('.non-existent-error-banner')
+- locator resolved to hidden
+- locator resolved to hidden
+- locator resolved to hidden
+- timeout 4000ms exceeded on element check
+          </div>
+        </div>
+
+        <!-- TR 3 -->
+        <div class="test-row pass p-4 hover:bg-slate-50 cursor-pointer flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold font-mono text-slate-400">#03 [passed]</span>
+            <span class="px-2 py-0.5 text-[10px] font-mono rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100 font-extrabold uppercase">PASSED</span>
+          </div>
+          <div class="flex items-start justify-between">
+            <h3 class="font-extrabold text-sm text-slate-900">Test 03 - Password Reset Request Flow</h3>
+            <span class="text-xs font-mono text-slate-500">340ms</span>
+          </div>
+        </div>
+
+        <!-- TR 4 -->
+        <div class="test-row pass p-4 hover:bg-slate-50 cursor-pointer flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold font-mono text-slate-400">#04 [passed]</span>
+            <span class="px-2 py-0.5 text-[10px] font-mono rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100 font-extrabold uppercase">PASSED</span>
+          </div>
+          <div class="flex items-start justify-between">
+            <h3 class="font-extrabold text-sm text-slate-900">Test 04 - Profile Bio Update Workflow</h3>
+            <span class="text-xs font-mono text-slate-500">480ms</span>
+          </div>
+        </div>
+
+        <!-- TR 5 -->
+        <div class="test-row pass p-4 hover:bg-slate-50 cursor-pointer flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold font-mono text-slate-400">#05 [passed]</span>
+            <span class="px-2 py-0.5 text-[10px] font-mono rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100 font-extrabold uppercase">PASSED</span>
+          </div>
+          <div class="flex items-start justify-between">
+            <h3 class="font-extrabold text-sm text-slate-900">Test 05 - Repository Search Functionality</h3>
+            <span class="text-xs font-mono text-slate-500">650ms</span>
+          </div>
+        </div>
+
+        <!-- TR 6 -->
+        <div class="test-row pass p-4 hover:bg-slate-50 cursor-pointer flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold font-mono text-slate-400">#06 [passed]</span>
+            <span class="px-2 py-0.5 text-[10px] font-mono rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100 font-extrabold uppercase">PASSED</span>
+          </div>
+          <div class="flex items-start justify-between">
+            <h3 class="font-extrabold text-sm text-slate-900">Test 06 - Adding a Repository to a Stars List</h3>
+            <span class="text-xs font-mono text-slate-500">420ms</span>
+          </div>
+        </div>
+
+        <!-- TR 7 -->
+        <div class="test-row pass p-4 hover:bg-slate-50 cursor-pointer flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold font-mono text-slate-400">#07 [passed]</span>
+            <span class="px-2 py-0.5 text-[10px] font-mono rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100 font-extrabold uppercase">PASSED</span>
+          </div>
+          <div class="flex items-start justify-between">
+            <h3 class="font-extrabold text-sm text-slate-900">Test 07 - Removing a Repository from a Stars List</h3>
+            <span class="text-xs font-mono text-slate-500">410ms</span>
+          </div>
+        </div>
+
+        <!-- TR 8 -->
+        <div class="test-row pass p-4 hover:bg-slate-50 cursor-pointer flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold font-mono text-slate-400">#08 [passed]</span>
+            <span class="px-2 py-0.5 text-[10px] font-mono rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100 font-extrabold uppercase">PASSED</span>
+          </div>
+          <div class="flex items-start justify-between">
+            <h3 class="font-extrabold text-sm text-slate-900">Test 08 - Repository Creation Flow simulation</h3>
+            <span class="text-xs font-mono text-slate-500">720ms</span>
+          </div>
+        </div>
+
+        <!-- TR 9 -->
+        <div class="test-row pass p-4 hover:bg-slate-50 cursor-pointer flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold font-mono text-slate-400">#09 [passed]</span>
+            <span class="px-2 py-0.5 text-[10px] font-mono rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100 font-extrabold uppercase">PASSED</span>
+          </div>
+          <div class="flex items-start justify-between">
+            <h3 class="font-extrabold text-sm text-slate-900">Test 09 - Infinite Scroll on GitHub Explore page</h3>
+            <span class="text-xs font-mono text-slate-500">2200ms</span>
+          </div>
+        </div>
+
+        <!-- TR 10 (FAILED) -->
+        <div onclick="toggleError('err-block-10')" class="test-row fail p-4 bg-rose-50/20 hover:bg-rose-50/45 cursor-pointer flex flex-col gap-3 border-l-4 border-rose-500">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold font-mono text-rose-500">#10 [failed]</span>
+            <span class="px-2 py-0.5 text-[10px] font-mono rounded-full bg-rose-50 text-rose-700 border border-rose-100 font-extrabold uppercase animate-pulse">FAILED</span>
+          </div>
+          <div class="flex items-start justify-between">
+            <div>
+              <h3 class="font-extrabold text-sm text-slate-900">Test 10 - Repository Issues Form Validation</h3>
+              <p class="text-xs text-rose-600 font-mono mt-1">expect(received).toHaveText(expected) failure mismatch.</p>
+            </div>
+            <span class="text-xs font-mono text-rose-600 font-bold">520ms</span>
+          </div>
+          <div id="err-block-10" class="hidden mt-3 bg-slate-900 text-rose-400 p-4 rounded-lg font-mono text-xs overflow-x-auto whitespace-pre leading-relaxed shadow-inner">
+Error: expect(received).toHaveText(expected)
+
+Expected string: "Title cannot be blank"
+Received string: "Field is required"
+
+   at tests/github.spec.ts:74:31
+   at runTestCallback (node_modules/@playwright/test/lib/testType.js:512:11)
+          </div>
+        </div>
+
+        <!-- TR 11 -->
+        <div class="test-row pass p-4 hover:bg-slate-50 cursor-pointer flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold font-mono text-slate-400">#11 [passed]</span>
+            <span class="px-2 py-0.5 text-[10px] font-mono rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100 font-extrabold uppercase">PASSED</span>
+          </div>
+          <div class="flex items-start justify-between">
+            <h3 class="font-extrabold text-sm text-slate-900">Test 11 - Profile Avatar File Upload Interaction</h3>
+            <span class="text-xs font-mono text-slate-500">950ms</span>
+          </div>
+        </div>
+
+        <!-- TR 12 -->
+        <div class="test-row pass p-4 hover:bg-slate-50 cursor-pointer flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold font-mono text-slate-400">#12 [passed]</span>
+            <span class="px-2 py-0.5 text-[10px] font-mono rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100 font-extrabold uppercase">PASSED</span>
+          </div>
+          <div class="flex items-start justify-between">
+            <h3 class="font-extrabold text-sm text-slate-900">Test 12 - Delete Repository Confirmation Modal Handling</h3>
+            <span class="text-xs font-mono text-slate-500">490ms</span>
+          </div>
+        </div>
+
+        <!-- TR 13 -->
+        <div class="test-row pass p-4 hover:bg-slate-50 cursor-pointer flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold font-mono text-slate-400">#13 [passed]</span>
+            <span class="px-2 py-0.5 text-[10px] font-mono rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100 font-extrabold uppercase">PASSED</span>
+          </div>
+          <div class="flex items-start justify-between">
+            <h3 class="font-extrabold text-sm text-slate-900">Test 13 - Multi-tab Navigation</h3>
+            <span class="text-xs font-mono text-slate-500">810ms</span>
+          </div>
+        </div>
+
+        <!-- TR 14 -->
+        <div class="test-row pass p-4 hover:bg-slate-50 cursor-pointer flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold font-mono text-slate-400">#14 [passed]</span>
+            <span class="px-2 py-0.5 text-[10px] font-mono rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100 font-extrabold uppercase">PASSED</span>
+          </div>
+          <div class="flex items-start justify-between">
+            <h3 class="font-extrabold text-sm text-slate-900">Test 14 - API Network Mocking/Interception</h3>
+            <span class="text-xs font-mono text-slate-500">510ms</span>
+          </div>
+        </div>
+
+        <!-- TR 15 -->
+        <div class="test-row pass p-4 hover:bg-slate-50 cursor-pointer flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold font-mono text-slate-400">#15 [passed]</span>
+            <span class="px-2 py-0.5 text-[10px] font-mono rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100 font-extrabold uppercase">PASSED</span>
+          </div>
+          <div class="flex items-start justify-between">
+            <h3 class="font-extrabold text-sm text-slate-900">Test 15 - Release Asset File Download Verification</h3>
+            <span class="text-xs font-mono text-slate-500">1100ms</span>
+          </div>
+        </div>
+
+        <!-- TR 16 -->
+        <div class="test-row pass p-4 hover:bg-slate-50 cursor-pointer flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold font-mono text-slate-400">#16 [passed]</span>
+            <span class="px-2 py-0.5 text-[10px] font-mono rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100 font-extrabold uppercase">PASSED</span>
+          </div>
+          <div class="flex items-start justify-between">
+            <h3 class="font-extrabold text-sm text-slate-900">Test 16 - Appearance Settings UI Toggle</h3>
+            <span class="text-xs font-mono text-slate-500">430ms</span>
+          </div>
+        </div>
+
+        <!-- TR 17 -->
+        <div class="test-row pass p-4 hover:bg-slate-50 cursor-pointer flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold font-mono text-slate-400">#17 [passed]</span>
+            <span class="px-2 py-0.5 text-[10px] font-mono rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100 font-extrabold uppercase">PASSED</span>
+          </div>
+          <div class="flex items-start justify-between">
+            <h3 class="font-extrabold text-sm text-slate-900">Test 17 - Repository Commit History Pagination Navigation</h3>
+            <span class="text-xs font-mono text-slate-500">680ms</span>
+          </div>
+        </div>
+
+        <!-- TR 18 -->
+        <div class="test-row pass p-4 hover:bg-slate-50 cursor-pointer flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold font-mono text-slate-400">#18 [passed]</span>
+            <span class="px-2 py-0.5 text-[10px] font-mono rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100 font-extrabold uppercase">PASSED</span>
+          </div>
+          <div class="flex items-start justify-between">
+            <h3 class="font-extrabold text-sm text-slate-900">Test 18 - Pull Request Table Column Sorting</h3>
+            <span class="text-xs font-mono text-slate-500">550ms</span>
+          </div>
+        </div>
+
+        <!-- TR 19 -->
+        <div class="test-row pass p-4 hover:bg-slate-50 cursor-pointer flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold font-mono text-slate-400">#19 [passed]</span>
+            <span class="px-2 py-0.5 text-[10px] font-mono rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100 font-extrabold uppercase">PASSED</span>
+          </div>
+          <div class="flex items-start justify-between">
+            <h3 class="font-extrabold text-sm text-slate-900">Test 19 - Real-time Repository File Tree Filtering</h3>
+            <span class="text-xs font-mono text-slate-500">610ms</span>
+          </div>
+        </div>
+
+        <!-- TR 20 -->
+        <div class="test-row pass p-4 hover:bg-slate-50 cursor-pointer flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold font-mono text-slate-400">#20 [passed]</span>
+            <span class="px-2 py-0.5 text-[10px] font-mono rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100 font-extrabold uppercase">PASSED</span>
+          </div>
+          <div class="flex items-start justify-between">
+            <h3 class="font-extrabold text-sm text-slate-900">Test 20 - Session State Persistence</h3>
+            <span class="text-xs font-mono text-slate-500">480ms</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function toggleError(blockId) {
+      const element = document.getElementById(blockId);
+      if (element.classList.contains('hidden')) {
+        element.classList.remove('hidden');
+      } else {
+        element.classList.add('hidden');
+      }
+    }
+
+    function filterTests(status) {
+      const allBtn = document.getElementById('btn-filter-all');
+      const passBtn = document.getElementById('btn-filter-passed');
+      const failBtn = document.getElementById('btn-filter-failed');
+
+      // Reset button styles
+      [allBtn, passBtn, failBtn].forEach(btn => {
+        btn.className = "px-3.5 py-1.5 text-xs font-bold rounded-lg border border-slate-200 bg-white text-slate-650 text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-all cursor-pointer";
+      });
+
+      if (status === 'all') {
+        allBtn.className = "px-3.5 py-1.5 text-xs font-bold rounded-lg border bg-slate-900 border-slate-900 text-white transition-all cursor-pointer";
+        document.querySelectorAll('.test-row').forEach(row => row.classList.remove('hidden'));
+      } else if (status === 'passed') {
+        passBtn.className = "px-3.5 py-1.5 text-xs font-bold rounded-lg border bg-emerald-600 border-emerald-600 text-white transition-all cursor-pointer";
+        document.querySelectorAll('.test-row.pass').forEach(row => row.classList.remove('hidden'));
+        document.querySelectorAll('.test-row.fail').forEach(row => row.classList.add('hidden'));
+      } else if (status === 'failed') {
+        failBtn.className = "px-3.5 py-1.5 text-xs font-bold rounded-lg border bg-rose-500 border-rose-500 text-white transition-all cursor-pointer";
+        document.querySelectorAll('.test-row.pass').forEach(row => row.classList.add('hidden'));
+        document.querySelectorAll('.test-row.fail').forEach(row => row.classList.remove('hidden'));
+      }
+    }
+  </script>
+</body>
+</html>

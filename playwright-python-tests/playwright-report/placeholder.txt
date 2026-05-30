@@ -1,1 +1,0 @@
-# This directory is configured to hold Playwright test run reports.
